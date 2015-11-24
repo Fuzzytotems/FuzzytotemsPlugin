@@ -16,8 +16,7 @@ bool UFuzzytotemsAugmenterBPLibrary::TArraySortFloat(TArray<float> input, TArray
 
 bool UFuzzytotemsAugmenterBPLibrary::TArraySortInt(TArray<int32> input, TArray<int32> &output, ESortType setting = ESortType::EST_Sort)
 {
-	InternalPrimitiveSort<int32>(input, output, setting);
-	return true;
+	return InternalPrimitiveSort<int32>(input, output, setting);
 }
 
 template<typename t>
