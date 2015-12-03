@@ -19,6 +19,21 @@ bool UFuzzytotemsAugmenterBPLibrary::TArraySortInt(TArray<int32> input, TArray<i
 	return InternalPrimitiveSort<int32>(input, output, setting);
 }
 
+bool UFuzzytotemsAugmenterBPLibrary::TArraySortString(TArray<FString> input, TArray<FString> &output, ESortType setting = ESortType::EST_Sort)
+{
+	return InternalPrimitiveSort<FString>(input, output, setting);
+}
+
+bool UFuzzytotemsAugmenterBPLibrary::TArraySortName(TArray<FName> input, TArray<FName> &output, ESortType setting = ESortType::EST_Sort)
+{
+	return InternalPrimitiveSort<FName>(input, output, setting);
+}
+
+//bool UFuzzytotemsAugmenterBPLibrary::TArraySortText(TArray<FText> input, TArray<FText> &output, ESortType setting = ESortType::EST_Sort)
+//{
+//	return InternalPrimitiveSort<FText>(input, output, setting);
+//}
+
 template<typename t>
 bool UFuzzytotemsAugmenterBPLibrary::InternalPrimitiveSort(TArray<t> input, TArray<t> &output, ESortType setting)
 {
