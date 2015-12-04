@@ -34,6 +34,11 @@ bool UFuzzytotemsAugmenterBPLibrary::TArraySortName(TArray<FName> input, TArray<
 //	return InternalPrimitiveSort<FText>(input, output, setting);
 //}
 
+bool UFuzzytotemsAugmenterBPLibrary::TArraySortObject(TArray<UObject*> input, TArray<UObject*> &output, ESortType optionalSetting)
+{
+	return InternalObjectSort(input, output, optionalSetting);
+}
+
 template<typename t>
 bool UFuzzytotemsAugmenterBPLibrary::InternalPrimitiveSort(TArray<t> input, TArray<t> &output, ESortType setting)
 {
@@ -54,4 +59,45 @@ bool UFuzzytotemsAugmenterBPLibrary::InternalPrimitiveSort(TArray<t> input, TArr
 	output = input;
 
 	return true;
+}
+
+bool UFuzzytotemsAugmenterBPLibrary::InternalObjectSort(TArray<UObject*> input, TArray<UObject*> &output, ESortType setting)
+{
+	bool result = false;
+
+	switch (setting)
+	{
+	case ESortType::EST_UnstableSort:
+		//return IISortable::Execute_Compare(input[0], input[1]);
+		//std::sort(0, input.Num(), ComparisonObj);
+		input.Sort([](UObject& A, const UObject& B) { return IISortable::Execute_Compare(&A, &B);});
+		result = true;
+		//Sort(input[0], input.Num(), UFuzzytotemsAugmenterBPLibrary::Comparison);
+		break;
+	case ESortType::EST_HeapSort:
+		//input.HeapSort([](UObject& A, const UObject& B) { return IISortable::Execute_Compare(&A, &B);});
+		result = false;
+		//input.HeapSort();
+		break;
+	case ESortType::EST_Sort:
+		input.StableSort([](UObject& A, const UObject& B) { return IISortable::Execute_Compare(&A, &B);});
+		result = true;
+	default:
+		//input.StableSort();
+		break;
+	}
+
+	output = input;
+
+	return result;
+}
+
+bool UFuzzytotemsAugmenterBPLibrary::Comparison(const UObject lefthand, const UObject righthand)
+{
+	return true;
+}
+
+UISortable::UISortable(const class FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
 }

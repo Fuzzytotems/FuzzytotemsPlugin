@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine.h"
+#include <algorithm>
 #include "FuzzytotemsAugmenterBPLibrary.generated.h"
 
 /* 
@@ -32,6 +33,16 @@ enum class ESortType : uint8
 	EST_MAX				UMETA(Hidden)
 };
 
+UENUM(BlueprintType)
+enum class EErrorCode : uint8
+{
+	EEC_NoError			UMETA(DisplayName = "No Error"),
+	EEC_NoInterface		UMETA(DisplayName = "No ISortable interface detected"),
+	EEC_Exception		UMETA(DisplayName = "An exception was thrown; Will not retain output"),
+
+	EEC_MAX				UMETA(Hidden)
+};
+
 UCLASS()
 class UFuzzytotemsAugmenterBPLibrary : public UBlueprintFunctionLibrary
 {
@@ -47,7 +58,27 @@ class UFuzzytotemsAugmenterBPLibrary : public UBlueprintFunctionLibrary
 		static bool TArraySortName(TArray<FName> input, TArray<FName> &output, ESortType optionalSetting);
 	//UFUNCTION(BlueprintCallable, meta = (DisplayName = "Sort Text TArray", Keywords = "FuzzytotemsAugmenter TArray Sort FText"), Category = "Fuzzytotems TArray")
 	//	static bool TArraySortText(TArray<FText> input, TArray<FText> &output, ESortType optionalSetting);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Sort Object TArray", Keywords = "FuzzytotemsAugmenter TArray Sort Object"), Category = "Fuzzytotems TArray")
+		static bool TArraySortObject(TArray<UObject*> input, TArray<UObject*> &output, ESortType optionalSetting);
 
 	template<typename t>
 	static bool InternalPrimitiveSort(TArray<t> input, TArray<t> &output, ESortType setting);
+
+	static bool InternalObjectSort(TArray<UObject*> input, TArray<UObject*> &output, ESortType setting);
+
+	static bool Comparison(const UObject lefthand, const UObject righthand);
+};
+
+UINTERFACE(MinimalAPI)
+class UISortable : public UInterface
+{
+	GENERATED_UINTERFACE_BODY()
+};
+
+class IISortable
+{
+	GENERATED_IINTERFACE_BODY()
+
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Sorting Predicate", Keywords = "Sorting Predicate"), Category = "Fuzzytotems TArray")
+		bool Compare(const UObject* otherObject);
 };
