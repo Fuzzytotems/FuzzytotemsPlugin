@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Engine.h"
-#include <algorithm>
 #include "FuzzytotemsAugmenterBPLibrary.generated.h"
 
 /* 
@@ -82,3 +81,72 @@ class IISortable
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Sorting Predicate", Keywords = "Sorting Predicate"), Category = "Fuzzytotems TArray")
 		bool Compare(const UObject* otherObject);
 };
+
+UCLASS(Blueprintable)
+class UQueueWrapper : public UObject
+{
+	GENERATED_UCLASS_BODY()
+
+private:
+	TQueue<UObject*> mQueue;
+
+private:
+	bool enforceSameClass;
+	TSubclassOf<UObject> enforcedClass;
+
+public:
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Enforce Same Class", Keywords = "Queue Enforce Same Class Matching Restrict"), Category = "Fuzzytotems TQueue")
+		void SetEnforceSameClass(bool isEnforcing);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Enforced Class", Keywords = "Queue Enforced Class"), Category = "Fuzzytotems TQueue")
+		void SetEnforcedClass(TSubclassOf<UObject> classToEnforce);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Enqueue", Keywords = "Enqueue Add Queue Insert Head Push Emplace +"), Category = "Fuzzytotems TQueue")
+		bool Enqueue(UObject* itemToEnqueue);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Dequeue", Keywords = "Dequeue Remove Queue Tail Pop Remove -"), Category = "Fuzzytotems TQueue")
+		bool Dequeue(UObject*& outItem);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Is Empty", Keywords = "Queue Contains Empty IsEmpty Zero Blank"), Category = "Fuzzytotems TQueue")
+		bool IsEmpty();
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Peek", Keywords = "Queue Peek First Top Tail Look"), Category = "Fuzzytotems TQueue")
+		bool Peek(UObject*& peekItem);
+};
+
+UCLASS()
+class UStackWrapper : public UObject
+{
+	GENERATED_UCLASS_BODY()
+};
+
+UCLASS()
+class UPriorityQueueWrapper : public UObject
+{
+	GENERATED_UCLASS_BODY()
+};
+
+//UCLASS()
+//class UMapWrapper : public UObject
+//{
+//	GENERATED_UCLASS_BODY()
+//};
+//
+//UCLASS()
+//class UMultiMapWrapper : public UObject
+//{
+//	GENERATED_UCLASS_BODY()
+//};
+//
+//UCLASS()
+//class USetWrapper : public UObject
+//{
+//	GENERATED_UCLASS_BODY()
+//};
+//
+//UCLASS()
+//class UMultiSetWrapper : public UObject
+//{
+//	GENERATED_UCLASS_BODY()
+//};
+//
+//UCLASS()
+//class UTextWriter : public UObject
+//{
+//	GENERATED_UCLASS_BODY()
+//};

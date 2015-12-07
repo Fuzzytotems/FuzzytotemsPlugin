@@ -97,7 +97,84 @@ bool UFuzzytotemsAugmenterBPLibrary::Comparison(const UObject lefthand, const UO
 	return true;
 }
 
+//******************* End of BP Augmenter **************************
+//******************* Start of Sortable Interface ******************
+
 UISortable::UISortable(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+}
+
+//******************* End of Sortable Interface ********************
+//******************* Start of Queue Wrapper ***********************
+
+UQueueWrapper::UQueueWrapper(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+
+}
+
+void UQueueWrapper::SetEnforceSameClass(bool isEnforcing)
+{
+	enforceSameClass = isEnforcing;
+}
+
+void UQueueWrapper::SetEnforcedClass(TSubclassOf<UObject> classToEnforce)
+{
+	enforcedClass = classToEnforce;
+}
+
+bool UQueueWrapper::Enqueue(UObject* itemToEnqueue)
+{
+	if (enforceSameClass)
+	{
+		if (itemToEnqueue->GetClass()->IsChildOf(enforcedClass))
+		{
+			return mQueue.Enqueue(itemToEnqueue);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return mQueue.Enqueue(itemToEnqueue);
+	}
+	
+	return false; // How did you even get out here??
+}
+
+bool UQueueWrapper::Dequeue(UObject*& outItem)
+{
+	bool result = mQueue.Dequeue(outItem);
+	return result;
+}
+
+bool UQueueWrapper::IsEmpty()
+{
+	return mQueue.IsEmpty();
+}
+
+bool UQueueWrapper::Peek(UObject*& peekItem)
+{
+	return (mQueue.Peek(peekItem));
+}
+
+//******************* End of Queue Wrapper *************************
+//******************* Start of Sortable Interface ******************
+
+UStackWrapper::UStackWrapper(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+
+}
+
+//******************* End of Stack Wrapper *************************
+//******************* Start of Priority Queue Wrapper **************
+
+UPriorityQueueWrapper::UPriorityQueueWrapper(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+
 }
