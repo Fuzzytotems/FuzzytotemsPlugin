@@ -59,10 +59,6 @@ class UFuzzytotemsAugmenterBPLibrary : public UBlueprintFunctionLibrary
 	//	static bool TArraySortText(TArray<FText> input, TArray<FText> &output, ESortType optionalSetting);
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Sort Object TArray", Keywords = "FuzzytotemsAugmenter TArray Sort Object"), Category = "Fuzzytotems TArray")
 		static bool TArraySortObject(TArray<UObject*> input, TArray<UObject*> &output, ESortType optionalSetting);
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Heap Pop", Keywords = "FuzzytotemsAugmenter TArray Heap Pop - Remove"), Category = "Fuzzytotems TArray")
-		static UObject* TArrayHeapPop(TArray<UObject*> input, TArray<UObject*> &output);
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Heap Push", Keywords = "FuzzytotemsAugmenter TArray Heap Push + Add"), Category = "Fuzzytotems TArray")
-		static int32 TArrayHeapPush(TArray<UObject*> input, UObject* newElement, TArray<UObject*> &output);
 
 	template<typename t>
 	static bool InternalPrimitiveSort(TArray<t> input, TArray<t> &output, ESortType setting);

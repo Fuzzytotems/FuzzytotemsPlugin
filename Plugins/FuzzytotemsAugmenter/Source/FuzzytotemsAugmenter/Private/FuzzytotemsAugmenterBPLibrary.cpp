@@ -75,8 +75,8 @@ bool UFuzzytotemsAugmenterBPLibrary::InternalObjectSort(TArray<UObject*> input, 
 		//Sort(input[0], input.Num(), UFuzzytotemsAugmenterBPLibrary::Comparison);
 		break;
 	case ESortType::EST_HeapSort:
-		input.Heapify([](UObject& A, const UObject& B) { return IISortable::Execute_Compare(&A, &B);});
-		result = true;
+		//input.HeapSort([](UObject& A, const UObject& B) { return IISortable::Execute_Compare(&A, &B);});
+		result = false;
 		//input.HeapSort();
 		break;
 	case ESortType::EST_Sort:
@@ -90,22 +90,6 @@ bool UFuzzytotemsAugmenterBPLibrary::InternalObjectSort(TArray<UObject*> input, 
 	output = input;
 
 	return result;
-}
-
-UObject* UFuzzytotemsAugmenterBPLibrary::TArrayHeapPop(TArray<UObject*> input, TArray<UObject*> &output)
-{
-	UObject* newObject;
-	input.HeapPop(newObject, [](UObject& A, UObject& B) { return IISortable::Execute_Compare(&A, &B);});
-	output = input;
-	return newObject;
-}
-
-int32 UFuzzytotemsAugmenterBPLibrary::TArrayHeapPush(TArray<UObject*> input, UObject* newElement, TArray<UObject*> &output)
-{
-	int32 index = input.HeapPush(newElement, [](UObject& A, UObject& B) { return IISortable::Execute_Compare(&A, &B);});
-
-	output = input;
-	return index;
 }
 
 bool UFuzzytotemsAugmenterBPLibrary::Comparison(const UObject lefthand, const UObject righthand)
